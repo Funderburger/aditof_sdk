@@ -59,13 +59,16 @@ void CameraInfoMsg::setMembers(const std::shared_ptr<Camera> &camera, int width,
 
     IntrinsicParameters intr = getIntrinsics(camera);
 
-    msg.D = std::vector<double>(intr.distCoeffs.begin(), intr.distCoeffs.end());
+    //msg.D = std::vector<double>(intr.distCoeffs.begin(), intr.distCoeffs.end());
+    msg.D = {-0.19244251158673903, 0.04381351235660008, -0.0009405430935965363, -0.0008425440682133996, 0.0f};
     float *ptr = intr.cameraMatrix.data();
-    msg.K = {ptr[0], ptr[1], ptr[2], ptr[3], ptr[4],
-             ptr[5], ptr[6], ptr[7], ptr[8]};
+    //msg.K = {ptr[0], ptr[1], ptr[2], ptr[3], ptr[4],
+    //         ptr[5], ptr[6], ptr[7], ptr[8]};
+    msg.K = {385.8655956930966, 0.0f, 342.3593021849471, 0.0f, 387.13463636528166, 233.38372018194542, 0.0f, 0.0f, 1.0};
     msg.R = {1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0};
-    msg.P = {msg.K[0], msg.K[1], msg.K[2], 0.0f,     msg.K[3], msg.K[4],
-             msg.K[5], 0.0f,     msg.K[6], msg.K[7], msg.K[8], 0.0f};
+    //msg.P = {msg.K[0], msg.K[1], msg.K[2], 0.0f,     msg.K[3], msg.K[4],
+    //         msg.K[5], 0.0f,     msg.K[6], msg.K[7], msg.K[8], 0.0f};
+    msg.P = {330.3871765136719, 0.0f, 347.5904833260138, 0.0f, 0.0f, 355.7972106933594, 231.1516662958602, 0.0f, 0.0f, 0.0f, 1.0, 0.0f};
 }
 
 void CameraInfoMsg::publishMsg(const ros::Publisher &pub) { pub.publish(msg); }
