@@ -46,7 +46,7 @@ void DepthImageMsg::FrameDataToMsg(const std::shared_ptr<Camera> &camera,
     FrameDetails fDetails;
     frame->getDetails(fDetails);
 
-    setMetadataMembers(fDetails.width, fDetails.height / 2, tStamp);
+    setMetadataMembers(fDetails.width, fDetails.height, tStamp);
 
     uint16_t *frameData = getFrameData(frame, aditof::FrameDataType::DEPTH);
     if (!frameData) {
@@ -76,12 +76,14 @@ void DepthImageMsg::setMetadataMembers(int width, int height,
 
 void DepthImageMsg::setDataMembers(const std::shared_ptr<Camera> &camera,
                                    uint16_t *frameData) {
-    if (msg.encoding.compare(sensor_msgs::image_encodings::RGBA8) == 0) {
+    if (msg.encoding.compare(sensor_msgs::image_encodings::MONO16) == 0) {
         std::vector<uint16_t> depthData(frameData,
                                         frameData + msg.width * msg.height);
         auto min_range = std::min_element(depthData.begin(), depthData.end());
 
-        dataToRGBA8(*min_range, getRangeMax(camera), frameData);
+
+        //dataToRGBA8(*min_range, getRangeMax(camera), frameData);
+	memcpy(msg.data.data(), frameData, 2*msg.width*msg.height);
     } else
         ROS_ERROR("Image encoding invalid or not available");
 }

@@ -40,7 +40,7 @@ MessageFactory::create(const std::shared_ptr<aditof::Camera> &camera,
         return new PointCloud2Msg(camera, frame, tStamp);
     case MessageType::sensor_msgs_DepthImage:
         return new DepthImageMsg(camera, frame,
-                                 sensor_msgs::image_encodings::RGBA8, tStamp);
+                                 sensor_msgs::image_encodings::MONO16, tStamp);
     case MessageType::sensor_msgs_IRImage:
         return new IRImageMsg(camera, frame,
                               sensor_msgs::image_encodings::MONO16, tStamp);
